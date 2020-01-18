@@ -9,6 +9,8 @@ use App\Service\TableService;
 
 class GameController
 {
+    const MAX_NUM_PLAYERS = 7;
+
     /** @var Player[] */
     private array $players;
 
@@ -30,6 +32,8 @@ class GameController
 
     public function start(): void
     {
+        $this->correctNumPlayers($this->players);
+
         $this->table->setupGame($this->players);
         $this->io->announcePlayers('Starting game with ', $this->players);
 
@@ -67,6 +71,17 @@ class GameController
                     break;
                 }
             }
+        }
+    }
+
+    private function correctNumPlayers(array $players): void
+    {
+        if (self::MAX_NUM_PLAYERS <= count(players)) {
+            $this->players = array_slice($this->players, 0, self::MAX_NUM_PLAYERS);
+        }
+
+        if (0 === $this->players) {
+            throw new \Exception('Game needs players to start');
         }
     }
 }
