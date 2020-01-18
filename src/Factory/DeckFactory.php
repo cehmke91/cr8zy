@@ -8,17 +8,15 @@ use App\Enum\CardProperties;
 
 class DeckFactory
 {
-    public function buildDeck(): Deck
+    public function buildPokerDeck(): Deck
     {
-        $deck = new Deck();
-
+        $cards = [];
         foreach (CardProperties::SUITES as $suite) {
             foreach (CardProperties::VALUES as $value) {
-                $card = new Card($suite, $value);
-                $deck->addCard($card);
+                $cards[] = new Card($suite, $value);
             }
         }
 
-        return $deck;
+        return new Deck($cards);
     }
 }

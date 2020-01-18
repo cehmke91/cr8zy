@@ -2,27 +2,33 @@
 
 namespace App\Model;
 
-use App\Model\Card;
-
 class Deck
 {
     /** @var Card[] $cards */
     private array $cards;
 
-    public function __construct()
+    public function __construct(array $cards)
     {
-        $this->cards = [];
+        $this->cards = $cards;
     }
 
-    public function addCard(Card $card): void
+    public function stackCard(Card $card): void
     {
-        $this->cards[] = $card;
+        array_unshift($this->cards, $card);
     }
 
-    public function display()
+    public function peek(): Card
     {
-        foreach ($this->cards as $card) {
-            echo($card->display());
-        }
+        return $this->cards[0];
+    }
+
+    public function draw(): Card
+    {
+        return array_shift($this->cards);
+    }
+
+    public function shuffle(): void
+    {
+        shuffle($this->cards);
     }
 }
