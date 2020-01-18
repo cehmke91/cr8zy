@@ -76,7 +76,7 @@ class GameController
 
     private function correctNumPlayers(array $players): void
     {
-        if (self::MAX_NUM_PLAYERS <= count(players)) {
+        if (self::MAX_NUM_PLAYERS <= count($players)) {
             $this->players = array_slice($this->players, 0, self::MAX_NUM_PLAYERS);
         }
 
