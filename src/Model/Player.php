@@ -28,9 +28,9 @@ class Player
         $this->hand = $hand;
     }
 
-    public function getCard(int $index): Card
+    public function getCard(int $index): ?Card
     {
-        $card = $this->hand[$index];
+        $card = $this->hand[$index] ?? null;
         array_splice($this->hand, $index, 1);
 
         return $card;

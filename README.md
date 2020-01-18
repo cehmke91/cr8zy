@@ -1,3 +1,4 @@
+# Cr8zy - a game of crazy eights
 ## Assignment
 Write a program that pits four virtual card players against each other in a simplified version of the card game Crazy Eights (Dutch: “Pesten”).
 Functionally, the game should work as follows:

@@ -17,12 +17,16 @@ class Deck
         array_unshift($this->cards, $card);
     }
 
-    public function peek(): Card
+    public function peek(): ?Card
     {
+        if (empty($this->cards)) {
+            return null;
+        }
+
         return $this->cards[0];
     }
 
-    public function draw(): Card
+    public function draw(): ?Card
     {
         return array_shift($this->cards);
     }
