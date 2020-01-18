@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set("Europe/Amsterdam");
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $deckFactory = new \App\Factory\DeckFactory();
@@ -9,6 +11,15 @@ $players = ['Jim', 'Tim', 'Fin', 'Andrew'];
 $playerFactory = new \App\Factory\PlayerFactory();
 $players = $playerFactory->createPlayers($players);
 
-$tableService = new \App\Service\TableService($players, $deck);
-$tableService->setupGame();
-var_dump($tableService);
+$tableService = new \App\Service\TableService($deck);
+$rulesService = new \App\Service\RulesService();
+$ioService = new \App\Service\IOService();
+
+$game = new \App\Controller\GameController(
+    $players,
+    $tableService,
+    $rulesService,
+    $ioService
+);
+
+$game->start();

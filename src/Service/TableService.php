@@ -10,30 +10,21 @@ class TableService
 {
     protected const DEAL_NUM = 7;
 
-    /** @var Player[] */
-    private array $players;
-
     private Deck $deck;
     private Deck $discard;
 
-    /**
-     * TableService constructor.
-     *
-     * @param Player[] $players
-     * @param Deck $deck
-     */
-    public function __construct(array $players, Deck $deck)
+    public function __construct(Deck $deck)
     {
-        $this->players = $players;
         $this->deck = $deck;
         $this->discard = new Deck([]);
     }
 
-    public function setupGame(): void
+    /** @param Player[] $players */
+    public function setupGame(array &$players): void
     {
         $this->deck->shuffle();
 
-        foreach ($this->players as &$player) {
+        foreach ($players as &$player) {
             $hand = [];
             for ($i = 0; $i < self::DEAL_NUM; $i++) {
                 $hand[] = $this->deck->draw();
@@ -48,6 +39,11 @@ class TableService
     public function currentCard(): Card
     {
         return $this->discard->peek();
+    }
+
+    public function draw(): Card
+    {
+        return $this->deck->draw();
     }
 
     public function discard(Card $card): void
