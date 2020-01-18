@@ -13,12 +13,13 @@ $players = $playerFactory->createPlayers($players);
 
 $tableService = new \App\Service\TableService($deck);
 $rulesService = new \App\Service\RulesService();
+$brainService = new \App\Service\BrainService($rulesService);
 $ioService = new \App\Service\IOService();
 
 $game = new \App\Controller\GameController(
     $players,
     $tableService,
-    $rulesService,
+    $brainService,
     $ioService
 );
 

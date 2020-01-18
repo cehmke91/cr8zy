@@ -7,7 +7,7 @@ use App\Model\Player;
 
 class IOService
 {
-    public function output(string $announcement): void
+    public function announce(string $announcement): void
     {
         echo('[' . date('H:i:s') . '] ' . $announcement . "\n");
     }
@@ -24,7 +24,7 @@ class IOService
             $cards .= $card->display() . ' ';
         }
 
-        $this->output($announcement . $cards);
+        $this->announce($announcement . $cards);
     }
 
     /**
@@ -40,6 +40,6 @@ class IOService
         }
         $playerNames = substr($playerNames, 0, -2);
 
-        $this->output($announcement . $playerNames);
+        $this->announce($announcement . $playerNames);
     }
 }

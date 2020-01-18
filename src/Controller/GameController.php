@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Model\Player;
+use App\Service\BrainService;
 use App\Service\IOService;
-use App\Service\RulesService;
 use App\Service\TableService;
 
 class GameController
@@ -13,18 +13,18 @@ class GameController
     private array $players;
 
     private TableService $table;
-    private RulesService $rules;
+    private BrainService $brain;
     private IOService $io;
 
     public function __construct(
         array $players,
         TableService $tableService,
-        RulesService $rulesService,
+        BrainService $brainService,
         IOService $ioService
     ) {
         $this->players = $players;
         $this->table = $tableService;
-        $this->rules = $rulesService;
+        $this->brain = $brainService;
         $this->io = $ioService;
     }
 
@@ -37,9 +37,36 @@ class GameController
         foreach ($this->players as $player) {
             $this->io->announceHand($player->getName() . ' has been dealt ', $player->getHand());
         }
+        $this->io->announce('Top card is ' . $this->table->currentCard()->display());
 
+        $win = false;
+        while (false === $win) {
+            /** @var Player $player */
+            foreach ($this->players as &$player) {
+                $cardIndex = $this->brain->findBestCard($player->getHand(), $this->table->currentCard());
 
+                if (null !== $cardIndex) {
+                    $card = $player->getCard($cardIndex);
+                    $this->table->discard($card);
 
+                    $this->io->announce($player->getName() . ' plays ' . $card->display());
+                } else {
+                    if ($this->brain->shouldDrawCard($this->table->cardsInDeck())) {
+                        $card = $this->table->draw();
+                        $player->addCard($card);
 
+                        $this->io->announce($player->getName() . ' does not have a suitable card, taking from deck ' . $card->display());
+                    } else {
+                        $this->io->announce($player->getName() . ' does not have a suitable card, cant draw. Skip');
+                    }
+                }
+
+                if($this->brain->doIWin($player->getHand())) {
+                    $this->io->announce($player->getName() . ' has won.');
+                    $win = true;
+                    break;
+                }
+            }
+        }
     }
 }

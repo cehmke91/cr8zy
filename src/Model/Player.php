@@ -28,6 +28,14 @@ class Player
         $this->hand = $hand;
     }
 
+    public function getCard(int $index): Card
+    {
+        $card = $this->hand[$index];
+        array_splice($this->hand, $index, 1);
+
+        return $card;
+    }
+
     public function addCard(Card $card): void
     {
         $this->hand[] = $card;

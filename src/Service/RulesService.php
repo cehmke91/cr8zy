@@ -6,7 +6,7 @@ use App\Model\Card;
 
 class RulesService
 {
-    public function isAllowed(Card $mine, Card $check): bool
+    public function canPlayCard(Card $mine, Card $check): bool
     {
         if ($check->getValue() === $mine->getValue()
             || $check->getSuite() === $mine->getSuite()
@@ -15,5 +15,15 @@ class RulesService
         }
 
         return false;
+    }
+
+    public function canDrawCard(int $cardsInDeck): bool
+    {
+        return 0 === $cardsInDeck ? false : true;
+    }
+
+    public function winningHand(array $hand): bool
+    {
+        return 0 === count($hand);
     }
 }

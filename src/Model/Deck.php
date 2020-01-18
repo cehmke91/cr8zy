@@ -31,4 +31,9 @@ class Deck
     {
         shuffle($this->cards);
     }
+
+    public function cardsLeft(): int
+    {
+        return count($this->cards);
+    }
 }

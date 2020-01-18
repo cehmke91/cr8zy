@@ -36,6 +36,11 @@ class TableService
         $this->discard->stackCard($this->deck->draw());
     }
 
+    public function cardsInDeck(): int
+    {
+        return $this->deck->cardsLeft();
+    }
+
     public function currentCard(): Card
     {
         return $this->discard->peek();
